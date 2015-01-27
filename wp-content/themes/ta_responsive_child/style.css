@@ -267,6 +267,64 @@ input[type="text"][name="wepay_widget_anchor_519ea8b26908e"].wepay-widget-input.
 	font-weight: bold;
 }
 
+a.donate-widget-button.donate-green {
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+    filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr=#ffb6d600, EndColorStr=#ff89b300, GradientType=0);
+    -ms-filter: 'progid:DXImageTransform.Microsoft.gradient(StartColorStr=#ffb6d600, EndColorStr=#ff89b300, GradientType=0)';
+    background-repeat: repeat-x;
+    background-color: #a0c500;
+    background-image: -webkit-linear-gradient(top,#b6d600,#89b300);
+    background-image: -moz-linear-gradient(top,#b6d600,#89b300);
+    background-image: -ms-linear-gradient(top,#b6d600,#89b300);
+    background-image: -o-linear-gradient(top,#b6d600,#89b300);
+    background-image: linear-gradient(top,#b6d600,#89b300);
+    color: #fff;
+    text-shadow: 0 -1px 0 #5a7600;
+    border: 1px solid #759a00;
+}
+a.donate-widget-button {
+    font-family: Helvetica,Arial,sans-serif;
+    display: none;
+    display: inline-block;
+    min-width: 75px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 1.29em;
+    padding: 10px 10px 10px;
+    font-size: 14px;
+    font-weight: normal;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 1px 0 #fff;
+    -moz-box-shadow: inset 0 1px 0 #fff;
+    box-shadow: inset 0 1px 0 #fff;
+    filter: progid:DXImageTransform.Microsoft.gradient(StartColorStr=#ffffffff, EndColorStr=#ffececec, GradientType=0);
+    -ms-filter: 'progid:DXImageTransform.Microsoft.gradient(StartColorStr=#ffffffff, EndColorStr=#ffececec, GradientType=0)';
+    background-repeat: repeat-x;
+    background-color: #f6f6f6;
+    background-image: -webkit-linear-gradient(top,#ffffff,#ececec);
+    background-image: -moz-linear-gradient(top,#ffffff,#ececec);
+    background-image: -ms-linear-gradient(top,#ffffff,#ececec);
+    background-image: -o-linear-gradient(top,#ffffff,#ececec);
+    background-image: linear-gradient(top,#ffffff,#ececec);
+    color: #797979;
+    text-shadow: 0 1px 0 #fff;
+    border: 1px solid #d3d3d3;
+    outline: none;
+    text-decoration: none;
+}
+
 /* Groups of Interest */
 #linkcat-2 h3 {
 	font-size: 22px;

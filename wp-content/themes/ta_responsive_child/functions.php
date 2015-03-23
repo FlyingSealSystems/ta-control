@@ -218,4 +218,19 @@ Fix poorly-worded strings in plugins.
 // User Submitted Values => Information Submitted
 load_plugin_textdomain( 'ninja-forms', false, '/fsslangs/' );
 
+// add custom feed to fix pubDate set to post_date instead modified_date
+add_action( 'after_setup_theme', 'my_rss_template' );
+/**
+ * Register custom RSS template.
+ */
+function my_rss_template() {
+	add_feed( 'mailchimp', 'my_custom_rss_render' );
+}
+
+/**
+ * Custom RSS template callback.
+ */
+function my_custom_rss_render() {
+	get_template_part( 'feed', 'mailchimp' );
+}
 ?>

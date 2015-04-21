@@ -233,4 +233,61 @@ function my_rss_template() {
 function my_custom_rss_render() {
 	get_template_part( 'feed', 'mailchimp' );
 }
+
+/**
+Recreate get_post_time that got set to start date by Tribe Events: event_date_to_pubDate
+*/
+function get_post_time_org( $d = 'U', $gmt = false, $post = null, $translate = false ) {
+	$post = get_post($post);
+
+	if ( ! $post ) {
+		return false;
+	}
+
+	if ( $gmt )
+		$time = $post->post_date_gmt;
+	else
+		$time = $post->post_date;
+
+	$time = mysql2date($d, $time, $translate);
+
+    return apply_filters( 'get_post_time_org', $time, $d, $gmt );
+
+}
+
+/*
+* The Events Calendar Filter for RSS Feed to Correct Pubdate
+* Modifys the first $zone check as UTC time 0 was registering as === false
+*/
+
+add_filter( 'get_post_time', 'events_rss2_gmt_pubdate_correction', 20 , 3 );
+
+function events_rss2_gmt_pubdate_correction($time, $d, $gmt) {
+	global $post;
+
+	// Don't interfere if this is not the events feed
+	if ( $post->post_type != TribeEvents::POSTTYPE || ! is_feed() || ! $gmt ) return $time;
+
+	// Don't interfere if the timezone hasn't been set
+	$zone = get_option( 'timezone_string', false );
+	
+	if ( !$zone ) {
+		return $time;
+	}
+	// Get time and timezone
+	$time = new DateTime( tribe_get_start_date( $post->ID, false, $d ) );
+	$zone = new DateTimeZone($zone);
+
+	// Apply timezone and calculate offset
+	$time->setTimezone( $zone );
+	$offset = $zone->getOffset( $time );
+	$offset *= -2;
+
+	// Apply correction
+	$time->modify( "$offset seconds" );
+	$time = $time->format( TribeDateUtils::DBDATETIMEFORMAT );
+	$time = mysql2date( $d, $time );
+
+	return $time;
+}
 ?>

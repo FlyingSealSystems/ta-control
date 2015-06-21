@@ -467,52 +467,13 @@ background-color: #666;
 	font-size: 16px;
 }
 
-/*
-.back a {
-	color: #4A751A;
+/* Footer */
+
+#footer .powered a {
+	color: #1D5C81
 }
 
-Fixes alignment problems
-#tribe-events-event-meta dt {
-	margin-top: 0;
-	width: 92px;
-}
 
-.events-archive .tribe-events-event-entry p,
-.venue-events .tribe-events-event-entry p {
-	margin: 1em;
-	font-size: 14px;
-	line-height: 1.5;
-}
-
-Keeps Calendar of Events from covering date selection
-.grid #tribe-events-calendar-header {
-	height: 100px;
-}
-
-h2.tribe-events-cal-title {
-	color: #4A751A;
-}
-
-.tribe-events-calendar-buttons a.tribe-events-button-off {
-	background: #4A751A;
-}
-
-.tribe-events-calendar-buttons a.tribe-events-button-on {
-	background: #4A751A;
-	text-decoration: underline !important;
-}
-
-Event Details link--events on Home and Archive pages
-.event_details {
-	font-size: medium;
-}
-
-Fix color of previous and next event links (was blue).
-.navlink a {
-	color: #aaa;
-}
-*/
 /* =Media Print
     If you're working on a Child Theme, make sure that all
 	media queries are included in your style.css

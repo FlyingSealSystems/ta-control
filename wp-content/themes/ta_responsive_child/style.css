@@ -80,15 +80,24 @@ p, hr, dl, pre, form, table, address, blockquote {
 	background: #4B545B;
 }
 
-/* slider */
+/* Roster Slider */
 #featured {
 	background-color: #4B545B;
 	padding-bottom: 0;
 }
 
-/* fss 2013-10-14 */
-.roster_slideri {
+.home .roster_slider_set {
+    height: 172px;
+    padding: 0 27px !important;
+}
+
+.home .roster_slider .roster_slideri {
 	text-align: center;
+	padding: 10px;
+}
+
+.home .roster_slider .roster_slideri img {
+	margin: 0 auto !important;
 }
 
 /* Postings Related To: xx and Monthly Archives: xx */

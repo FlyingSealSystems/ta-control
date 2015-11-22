@@ -111,19 +111,6 @@ function ta_responsive_post_meta_byline($fss_post_id) {
 }
 
 /**
-Include Events in wp_get_archives.
-wp_get_archives is defined in general-template.php. It's used on the TA site in two places:
-  1) Responsive/sidebar.php. (Called from archive_php. Has no widgets.)
-  2) Standard Archives widget. (Added to sidebar-right.php. Called from home.php.)
-*/
-function ta_archive_incl_events($where_clause) {
-	$where_clause = str_ireplace("= 'post'", "in ('post', 'tribe_events')", $where_clause);
-	return $where_clause;
-}
-
-//add_filter('getarchives_where', 'ta_archive_incl_events');
-
-/**
 Don't allow comments unless it's a Post or a Page.
 If it's a Post or Page, depends whether editor/administrator checked "Allow comments".
 This became an issue when comment boxes were showing up for post type "attachment" in the photo carousel.
@@ -141,26 +128,17 @@ function fss_comments_allowed( $allowed, $post_id ) {
 add_filter( 'comments_open', 'fss_comments_allowed', 10 , 2 );
 
 /**
-Temporary fix for WP 3.6 Tribe Recurring Events incompatibility 2013-08-30
-*/
-//add_action('admin_head', 'tribe_fix_recurrence_dialog');
-
-function tribe_fix_recurrence_dialog(){
-?>
-	<style type="text/css">
-		.ui-widget-overlay.ui-front {z-index: 90; }
-	</style>
-<?php
-}
-
-/**
 In a query the includes Events and Posts, for Events use Post Date rather than Event-Date-as-Post-Date
+2015-11-22 - Added if ($fields[0]) since $fields now an associative array on single event.
+	(Adding the $fields[0] string there totally messes up the query.)
 */
 add_filter('tribe_events_query_posts_fields', 'fss_event_use_post_date');
 
 function fss_event_use_post_date($fields) {
 	global $wpdb;
-	$fields[0] = "{$wpdb->posts}.post_date AS post_date";
+	if ($fields[0]) {
+		$fields[0] = "{$wpdb->posts}.post_date AS post_date";
+	}
 	return $fields;
 }
 
@@ -191,16 +169,6 @@ function fss_body_class ($classes) {
 }
 
 /**
-Include Events in Subscribe2 Email Notifications
-*/
-add_filter('s2_post_types', 'fss_s2_post_types');
-
-function fss_s2_post_types($types) {
-    $types[] = 'tribe_events';
-    return $types;
-}
-
-/**
 Limit number of months displayed by archive widget.
 */
 
@@ -218,76 +186,4 @@ Fix poorly-worded strings in plugins.
 // User Submitted Values => Information Submitted
 load_plugin_textdomain( 'ninja-forms', false, '/fsslangs/' );
 
-// add custom feed to fix pubDate set to post_date instead modified_date
-add_action( 'after_setup_theme', 'my_rss_template' );
-/**
- * Register custom RSS template.
- */
-function my_rss_template() {
-	add_feed( 'mailchimp', 'my_custom_rss_render' );
-}
-
-/**
- * Custom RSS template callback.
- */
-function my_custom_rss_render() {
-	get_template_part( 'feed', 'mailchimp' );
-}
-
-/**
-Recreate get_post_time that got set to start date by Tribe Events: event_date_to_pubDate
-*/
-function get_post_time_org( $d = 'U', $gmt = false, $post = null, $translate = false ) {
-	$post = get_post($post);
-
-	if ( ! $post ) {
-		return false;
-	}
-
-	if ( $gmt )
-		$time = $post->post_date_gmt;
-	else
-		$time = $post->post_date;
-
-	$time = mysql2date($d, $time, $translate);
-
-    return apply_filters( 'get_post_time_org', $time, $d, $gmt );
-
-}
-
-/*
-* The Events Calendar Filter for RSS Feed to Correct Pubdate
-* Modifys the first $zone check as UTC time 0 was registering as === false
-*/
-
-add_filter( 'get_post_time', 'events_rss2_gmt_pubdate_correction', 20 , 3 );
-
-function events_rss2_gmt_pubdate_correction($time, $d, $gmt) {
-	global $post;
-
-	// Don't interfere if this is not the events feed
-	if ( $post->post_type != TribeEvents::POSTTYPE || ! is_feed() || ! $gmt ) return $time;
-
-	// Don't interfere if the timezone hasn't been set
-	$zone = get_option( 'timezone_string', false );
-	
-	if ( !$zone ) {
-		return $time;
-	}
-	// Get time and timezone
-	$time = new DateTime( tribe_get_start_date( $post->ID, false, $d ) );
-	$zone = new DateTimeZone($zone);
-
-	// Apply timezone and calculate offset
-	$time->setTimezone( $zone );
-	$offset = $zone->getOffset( $time );
-	$offset *= -2;
-
-	// Apply correction
-	$time->modify( "$offset seconds" );
-	$time = $time->format( TribeDateUtils::DBDATETIMEFORMAT );
-	$time = mysql2date( $d, $time );
-
-	return $time;
-}
 ?>

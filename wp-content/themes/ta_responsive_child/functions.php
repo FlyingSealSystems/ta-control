@@ -186,4 +186,7 @@ Fix poorly-worded strings in plugins.
 // User Submitted Values => Information Submitted
 load_plugin_textdomain( 'ninja-forms', false, '/fsslangs/' );
 
+//Allow automatic updates even though git found
+add_filter( 'automatic_updates_is_vcs_checkout', '__return_false', 1 );
+
 ?>

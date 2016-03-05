@@ -189,4 +189,14 @@ load_plugin_textdomain( 'ninja-forms', false, '/fsslangs/' );
 //Allow automatic updates even though git found
 add_filter( 'automatic_updates_is_vcs_checkout', '__return_false', 1 );
 
+/* Remove new (2016-03-04) Responsive Theme copyright function.
+An upstream bug (as of 2016-03-04) erases Transition Albany each time you enter theme customizer.
+Without copyright function, will pull "Transition Albany" from site name.
+The copyright function also removed the Site Developed By if misleading box in customizer wasn't checked. */
+function remove_fetch_copyright() {
+	remove_action('wp_head','fetch_copyright');
+}
+add_action('init','remove_fetch_copyright');
+
+
 ?>
